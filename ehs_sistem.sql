@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 04 Apr 2023 pada 06.22
+-- Waktu pembuatan: 26 Bulan Mei 2023 pada 05.59
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 7.4.29
 
@@ -40,20 +40,69 @@ CREATE TABLE `berkas` (
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data untuk tabel `berkas`
+-- Struktur dari tabel `jadwalkerja`
 --
 
-INSERT INTO `berkas` (`id_berkas`, `kd_berkas`, `no_berkas`, `judul_berkas`, `nm_berkas`, `keterangan_berkas`, `tipe_berkas`, `ukuran_berkas`, `created_at`, `updated_at`) VALUES
-(1, 'BRK00001', '', '', 'd105d8b59f5b45a91caf7d77cd74906f.pdf', 'tes upload pdf', '.pdf', 25.85, '2023-02-14 03:17:04', NULL),
-(2, 'BRK00002', '', 'TES UPLOAD LAGI', '06621dfefd5f7d8073f735a48e97c58f.pdf', 'tes upload 2', '.pdf', 126.8, '2023-02-14 03:25:44', NULL),
-(3, 'BRK00003', '', 'Document IKS', 'f6b82ad0e4f3b132ced2e34e2b2f6053.pdf', 'TES UPLOAD 3', '.pdf', 25.97, '2023-02-14 04:25:18', NULL),
-(4, 'DOC00004', '', 'cek tombol upload', '0fe21210cf3c2a2cb6b3e86be86b54b8.docx', 'cekcek', '.docx', 15.55, '2023-02-14 04:36:52', NULL),
-(5, 'DOC00005', '', 'tes excel dokumen', '4e07b0522c6aa6824ea762c3a8f04512.xlsx', 'cek klo doc excel', '.xlsx', 18.17, '2023-02-14 04:51:02', NULL),
-(6, 'DOC00006', '', 'Cek nomor dokumen', '2db7441f2e901fa8ffd50e7b1f161201.pdf', 'Tes dokumen', '.pdf', 820.71, '2023-02-14 06:26:45', NULL),
-(7, 'DOC00007', 'SOP-01-231122', 'Cek nomor dokumen2', 'dc4266e99451e6b340f048b6217cc013.pdf', 'cek nodok', '.pdf', 530.94, '2023-02-14 06:27:44', NULL),
-(8, 'DOC00008', 'SOP-02-210320', 'CEKNAMA', 'IKS_System_-_POV_PIC_PT_CBI.pdf', 'CEKCEKCEK', '.pdf', 894.44, '2023-02-14 06:45:38', NULL),
-(9, 'DOC00009', 'SOP-22-2121212', 'Cek tambah type m4', 'Formatif_2_RPL_-_Nuramalia_Putri_(222101286).pdf', 'cek mp4 ', '.pdf', 228.48, '2023-02-15 06:32:32', NULL);
+CREATE TABLE `jadwalkerja` (
+  `id_jadwal` int(11) NOT NULL,
+  `date_in` date NOT NULL,
+  `date_out` date NOT NULL,
+  `shift_id` int(11) NOT NULL,
+  `karyawan_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `jadwalkerja`
+--
+
+INSERT INTO `jadwalkerja` (`id_jadwal`, `date_in`, `date_out`, `shift_id`, `karyawan_id`, `created_at`, `updated_at`) VALUES
+(1, '2023-05-17', '2023-05-19', 2, 5, '2023-05-17 04:21:12', NULL),
+(2, '2023-05-17', '2023-05-19', 2, 8, '2023-05-17 04:21:12', NULL),
+(3, '2023-05-17', '2023-05-19', 2, 9, '2023-05-17 04:21:12', NULL),
+(4, '2023-05-23', '2023-05-26', 1, 6, '2023-05-23 06:43:05', NULL),
+(5, '2023-05-23', '2023-05-26', 1, 5, '2023-05-23 06:43:06', NULL),
+(6, '2023-05-23', '2023-05-26', 1, 7, '2023-05-23 06:43:06', NULL),
+(7, '2023-05-23', '2023-05-26', 2, 8, '2023-05-23 06:44:58', NULL),
+(8, '2023-05-23', '2023-05-26', 3, 9, '2023-05-23 06:45:23', NULL),
+(9, '2023-05-24', '2023-05-26', 2, 6, '2023-05-24 04:45:21', NULL),
+(10, '2023-05-24', '2023-05-26', 2, 5, '2023-05-24 04:45:21', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `jadwalkerjaot`
+--
+
+CREATE TABLE `jadwalkerjaot` (
+  `id_ot` int(11) NOT NULL,
+  `date_in` date NOT NULL,
+  `date_out` date NOT NULL,
+  `time_in` time NOT NULL,
+  `time_out` time NOT NULL,
+  `total` int(111) NOT NULL,
+  `shift_id` int(3) NOT NULL,
+  `karyawan_id` int(11) NOT NULL,
+  `keterangan` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `jadwalkerjaot`
+--
+
+INSERT INTO `jadwalkerjaot` (`id_ot`, `date_in`, `date_out`, `time_in`, `time_out`, `total`, `shift_id`, `karyawan_id`, `keterangan`, `created_at`, `updated_at`) VALUES
+(1, '2023-05-23', '2023-05-23', '16:30:00', '21:30:00', 5, 1, 10, 'Perbaiki mesin ', '2023-05-23 14:40:57', '2023-05-24 04:22:22'),
+(2, '2023-05-23', '2023-05-23', '16:30:00', '21:30:00', 5, 1, 8, 'Perbaiki mesin ', '2023-05-23 14:40:57', '2023-05-24 04:22:25'),
+(3, '2023-05-23', '2023-05-23', '16:30:00', '21:30:00', 5, 1, 7, 'Perbaiki mesin ', '2023-05-23 14:40:57', '2023-05-24 04:22:29'),
+(4, '2023-05-24', '2023-05-24', '16:30:00', '20:30:00', 4, 1, 7, 'Membersihkan Area WWT', '2023-05-24 03:33:24', NULL),
+(5, '2023-05-24', '2023-05-24', '16:30:00', '20:30:00', 4, 1, 8, 'Membersihkan Area WWT', '2023-05-24 03:33:24', NULL),
+(6, '2023-05-24', '2023-05-24', '17:30:00', '21:30:00', 4, 1, 9, 'Perbaiki mesin ', '2023-05-24 09:08:38', NULL);
 
 -- --------------------------------------------------------
 
@@ -65,6 +114,7 @@ CREATE TABLE `karyawan` (
   `id_karyawan` int(11) NOT NULL,
   `nik` varchar(10) NOT NULL,
   `nm_karyawan` varchar(255) NOT NULL,
+  `posisi_id` int(11) NOT NULL,
   `foto_karyawan` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
@@ -74,16 +124,17 @@ CREATE TABLE `karyawan` (
 -- Dumping data untuk tabel `karyawan`
 --
 
-INSERT INTO `karyawan` (`id_karyawan`, `nik`, `nm_karyawan`, `foto_karyawan`, `created_at`, `updated_at`) VALUES
-(1, '1646', 'Akhmadi Shofiya Alrizqi', 'dosen5.png', '2023-02-10 03:39:38', '2023-02-14 01:59:10'),
-(2, '3913', 'Ihan Pratama', '', '2023-02-10 03:39:38', NULL),
-(3, '2269', 'Hasan Rudi', '', '2023-02-10 03:39:38', NULL),
-(4, '0583', 'Bambang Sarjono', '', '2023-02-10 03:39:38', NULL),
-(5, '3204', 'Muhamad Fiqri Kurnia', '', '2023-02-10 03:40:18', NULL),
-(6, '1041', 'Subkhan', '', '2023-02-10 03:40:18', NULL),
-(7, '2819', 'Nonik Suhaya Cahaya Purnamasari', 'hijabers4.png', '2023-02-10 03:42:13', '2023-02-14 01:33:01'),
-(8, '0731', 'Dedi Ruhimat', 'dosen22.png', '2023-02-10 03:42:13', '2023-02-14 01:59:25'),
-(11, '2121', 'Ahmad Zaelani', 'dosen6.png', '2023-03-23 08:53:55', '2023-03-23 08:54:14');
+INSERT INTO `karyawan` (`id_karyawan`, `nik`, `nm_karyawan`, `posisi_id`, `foto_karyawan`, `created_at`, `updated_at`) VALUES
+(2, '1625', 'Sugiyanto', 1, 'pa_sugi.jpg', '2023-05-16 04:59:42', '2023-05-17 01:05:23'),
+(3, '1617', 'Ahmad Zaelani', 2, 'pa_jeri.jpg', '2023-05-17 01:04:54', NULL),
+(4, '2819', 'Nonik Suhaya Cahaya Purnamasari', 3, 'mba_nonik.jpg', '2023-05-17 01:06:00', NULL),
+(5, '1646', 'Akhmadi Shofiya Alrizqi', 4, 'mas_akhmadi.jpg', '2023-05-17 01:06:41', NULL),
+(6, '3204', 'Muhamad Fiqri Kurnia', 4, 'mas_fiqri.jpg', '2023-05-17 01:07:26', NULL),
+(7, '1041', 'Subkhan', 4, 'pa_subkhan.jpg', '2023-05-17 01:07:59', NULL),
+(8, '0583', 'Bambang Sarjono', 4, 'pa_bambang.jpg', '2023-05-17 01:08:31', NULL),
+(9, '2269', 'Hasan Rudi', 4, 'pa_hasan.jpg', '2023-05-17 01:09:15', NULL),
+(10, '3913', 'Ihan Pratama', 5, 'mas_ihan.jpg', '2023-05-17 01:09:46', NULL),
+(11, '0731', 'Dedi Ruhmat', 3, 'pa_dedi.jpg', '2023-05-17 01:14:57', NULL);
 
 -- --------------------------------------------------------
 
@@ -107,12 +158,77 @@ CREATE TABLE `material` (
 --
 
 INSERT INTO `material` (`id_material`, `material`, `detail_material`, `satuan`, `jml_stok`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Kostik soda tangki besar', 'Menaikkan kadar PH', 'm3', '8500', 'full', '2023-02-15 02:41:56', '2023-04-03 03:34:58'),
-(2, 'Kostik soda tangki kecil', 'Menaikkan kadar PH', 'm3', '9750', 'full', '2023-02-15 02:41:56', '2023-04-03 03:30:42'),
-(3, 'Kostik flake', 'Menaikkan kadar PH', 'kg', '250', 'full', '2023-02-15 02:41:56', '2023-04-03 03:36:17'),
-(4, 'Kuriflok', 'Menggumpalkan asam', 'kg', '300', 'full', '2023-02-15 02:41:56', '2023-04-03 03:36:17'),
-(5, 'Fecl3', 'Mengikat asam dalam proses', 'kg', '450', 'full', '2023-02-15 02:42:46', '2023-04-03 03:30:42'),
-(6, 'HCL', 'Menurunkan PH', 'Lt', '4200', 'full', '2023-02-15 02:42:46', '2023-04-03 03:34:58');
+(1, 'Kostik soda tangki besar', 'Menaikkan kadar PH', 'm3', '7850', 'full', '2023-02-15 02:41:56', '2023-04-05 08:15:04'),
+(2, 'Kostik soda tangki kecil', 'Menaikkan kadar PH', 'm3', '7000', 'full', '2023-02-15 02:41:56', '2023-04-10 02:16:30'),
+(3, 'Kostik flake', 'Menaikkan kadar PH', 'kg', '0', 'full', '2023-02-15 02:41:56', '2023-04-05 08:15:04'),
+(4, 'Kuriflok', 'Menggumpalkan asam', 'kg', '250', 'full', '2023-02-15 02:41:56', '2023-04-05 08:15:04'),
+(5, 'Fecl3', 'Mengikat asam dalam proses', 'kg', '350', 'full', '2023-02-15 02:42:46', '2023-04-10 02:16:30'),
+(6, 'HCL', 'Menurunkan PH', 'Lt', '1300', 'full', '2023-02-15 02:42:46', '2023-04-10 02:16:30');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `max_kostikdemin`
+--
+
+CREATE TABLE `max_kostikdemin` (
+  `id` int(11) NOT NULL,
+  `max_kostikdemin` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `max_kostikdemin`
+--
+
+INSERT INTO `max_kostikdemin` (`id`, `max_kostikdemin`, `created_at`) VALUES
+(1, '2500', '2023-05-20 15:26:27'),
+(2, '2800', '2023-05-20 15:26:51'),
+(3, '500', '2023-05-22 03:24:18');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `max_kostikmixbed`
+--
+
+CREATE TABLE `max_kostikmixbed` (
+  `id` int(11) NOT NULL,
+  `max_kostikmixbed` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `max_kostikmixbed`
+--
+
+INSERT INTO `max_kostikmixbed` (`id`, `max_kostikmixbed`, `created_at`) VALUES
+(1, '3800', '2023-05-20 15:02:32'),
+(2, '500', '2023-05-22 03:23:57');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `max_kostikwwt`
+--
+
+CREATE TABLE `max_kostikwwt` (
+  `id` int(11) NOT NULL,
+  `max_kostik` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `max_kostikwwt`
+--
+
+INSERT INTO `max_kostikwwt` (`id`, `max_kostik`, `created_at`) VALUES
+(1, '1000', '2023-05-20 14:29:05'),
+(2, '2500', '2023-05-20 14:29:32'),
+(3, '3000', '2023-05-20 14:29:54'),
+(4, '800', '2023-05-20 14:30:12'),
+(5, '3725', '2023-05-22 02:37:55'),
+(6, '2500', '2023-05-23 03:21:52');
 
 -- --------------------------------------------------------
 
@@ -131,21 +247,29 @@ CREATE TABLE `pemakaian_material` (
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data untuk tabel `pemakaian_material`
+-- Struktur dari tabel `posisi`
 --
 
-INSERT INTO `pemakaian_material` (`id`, `material_id`, `nm_user`, `jml_pemakaian`, `tanggal_pemakaian`, `month`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Ihanp ', '500', '2023-04-03', 'April', '2023-04-03 03:30:42', NULL),
-(2, 2, 'Ihanp ', '250', '2023-04-03', 'April', '2023-04-03 03:30:42', NULL),
-(3, 3, 'Ihanp ', '50', '2023-04-03', 'April', '2023-04-03 03:30:42', NULL),
-(4, 4, 'Ihanp ', '50', '2023-04-03', 'April', '2023-04-03 03:30:42', NULL),
-(5, 5, 'Ihanp ', '50', '2023-04-03', 'April', '2023-04-03 03:30:42', NULL),
-(6, 6, 'Ihanp ', '500', '2023-04-03', 'April', '2023-04-03 03:30:42', NULL),
-(7, 1, 'Ihanp ', '1000', '2023-04-04', 'April', '2023-04-03 03:34:58', NULL),
-(8, 6, 'Ihanp ', '300', '2023-04-04', 'April', '2023-04-03 03:34:58', NULL),
-(9, 4, 'Ihanp ', '150', '2023-04-05', 'April', '2023-04-03 03:36:17', NULL),
-(10, 3, 'Ihanp ', '200', '2023-04-05', 'April', '2023-04-03 03:36:17', NULL);
+CREATE TABLE `posisi` (
+  `id_posisi` int(11) NOT NULL,
+  `keterangan` varchar(50) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `posisi`
+--
+
+INSERT INTO `posisi` (`id_posisi`, `keterangan`, `created_at`, `updated_at`) VALUES
+(1, 'Kadept', '2023-05-16 04:27:02', NULL),
+(2, 'Kasi', '2023-05-16 04:27:02', NULL),
+(3, 'Kasubsi', '2023-05-16 04:27:18', NULL),
+(4, 'PIC WWT', '2023-05-16 04:27:18', NULL),
+(5, 'PIC Safety', '2023-05-16 04:27:25', NULL);
 
 -- --------------------------------------------------------
 
@@ -191,8 +315,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `upass`, `id_pengguna`, `akses`, `created_at`, `updated_at`) VALUES
-(1, 'noniks', 'tes123', 7, 1, '2023-02-10 03:46:31', NULL),
-(2, 'ihanp', '9999', 2, 2, '2023-02-10 03:46:31', NULL);
+(1, 'NSC2819', 'office28', 4, 1, '2023-02-10 03:46:31', '2023-05-22 01:51:35'),
+(2, 'AZAE1617', 'office16', 3, 1, '2023-02-10 03:46:31', '2023-05-22 01:51:44'),
+(5, 'SGY1625', 'office25', 2, 1, '2023-05-22 01:54:11', NULL),
+(6, 'DRU0731', 'office07', 11, 1, '2023-05-22 01:54:58', NULL);
 
 --
 -- Indexes for dumped tables
@@ -205,10 +331,27 @@ ALTER TABLE `berkas`
   ADD PRIMARY KEY (`id_berkas`);
 
 --
+-- Indeks untuk tabel `jadwalkerja`
+--
+ALTER TABLE `jadwalkerja`
+  ADD PRIMARY KEY (`id_jadwal`),
+  ADD KEY `constraint_shift` (`shift_id`),
+  ADD KEY `constraint_karyawan` (`karyawan_id`);
+
+--
+-- Indeks untuk tabel `jadwalkerjaot`
+--
+ALTER TABLE `jadwalkerjaot`
+  ADD PRIMARY KEY (`id_ot`),
+  ADD KEY `shift_constraint` (`shift_id`),
+  ADD KEY `karyawan_constraint` (`karyawan_id`);
+
+--
 -- Indeks untuk tabel `karyawan`
 --
 ALTER TABLE `karyawan`
-  ADD PRIMARY KEY (`id_karyawan`);
+  ADD PRIMARY KEY (`id_karyawan`),
+  ADD KEY `constraint_posisi` (`posisi_id`);
 
 --
 -- Indeks untuk tabel `material`
@@ -217,11 +360,35 @@ ALTER TABLE `material`
   ADD PRIMARY KEY (`id_material`);
 
 --
+-- Indeks untuk tabel `max_kostikdemin`
+--
+ALTER TABLE `max_kostikdemin`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `max_kostikmixbed`
+--
+ALTER TABLE `max_kostikmixbed`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `max_kostikwwt`
+--
+ALTER TABLE `max_kostikwwt`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `pemakaian_material`
 --
 ALTER TABLE `pemakaian_material`
   ADD PRIMARY KEY (`id`),
   ADD KEY `constraint_pemakaian` (`material_id`);
+
+--
+-- Indeks untuk tabel `posisi`
+--
+ALTER TABLE `posisi`
+  ADD PRIMARY KEY (`id_posisi`);
 
 --
 -- Indeks untuk tabel `shift`
@@ -244,13 +411,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `berkas`
 --
 ALTER TABLE `berkas`
-  MODIFY `id_berkas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_berkas` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `jadwalkerja`
+--
+ALTER TABLE `jadwalkerja`
+  MODIFY `id_jadwal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT untuk tabel `jadwalkerjaot`
+--
+ALTER TABLE `jadwalkerjaot`
+  MODIFY `id_ot` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `karyawan`
 --
 ALTER TABLE `karyawan`
-  MODIFY `id_karyawan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_karyawan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT untuk tabel `material`
@@ -259,10 +438,34 @@ ALTER TABLE `material`
   MODIFY `id_material` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT untuk tabel `max_kostikdemin`
+--
+ALTER TABLE `max_kostikdemin`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT untuk tabel `max_kostikmixbed`
+--
+ALTER TABLE `max_kostikmixbed`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT untuk tabel `max_kostikwwt`
+--
+ALTER TABLE `max_kostikwwt`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT untuk tabel `pemakaian_material`
 --
 ALTER TABLE `pemakaian_material`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `posisi`
+--
+ALTER TABLE `posisi`
+  MODIFY `id_posisi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `shift`
@@ -274,11 +477,31 @@ ALTER TABLE `shift`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
+
+--
+-- Ketidakleluasaan untuk tabel `jadwalkerja`
+--
+ALTER TABLE `jadwalkerja`
+  ADD CONSTRAINT `constraint_karyawan` FOREIGN KEY (`karyawan_id`) REFERENCES `karyawan` (`id_karyawan`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `constraint_shift` FOREIGN KEY (`shift_id`) REFERENCES `shift` (`id_shift`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `jadwalkerjaot`
+--
+ALTER TABLE `jadwalkerjaot`
+  ADD CONSTRAINT `karyawan_constraint` FOREIGN KEY (`karyawan_id`) REFERENCES `karyawan` (`id_karyawan`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `shift_constraint` FOREIGN KEY (`shift_id`) REFERENCES `shift` (`id_shift`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `karyawan`
+--
+ALTER TABLE `karyawan`
+  ADD CONSTRAINT `constraint_posisi` FOREIGN KEY (`posisi_id`) REFERENCES `posisi` (`id_posisi`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `pemakaian_material`
