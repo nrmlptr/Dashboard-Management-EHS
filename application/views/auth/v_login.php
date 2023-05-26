@@ -42,16 +42,16 @@
                             <div class="clearfix"></div>
 
                             <div class="separator">
-                                <!-- <p class="change_link">Belum Punya Akun?
-                                    <a href="#signup" class="to_register"> Registrasi </a>
-                                </p> -->
+                                <p class="change_link">
+                                    <a href="<?= base_url('Layout/index');?>" class="btn btn-outline-secondary btn-sm">Kembali ke Dashboard </a>
+                                </p>
 
                                 <div class="clearfix"></div>
                                 <br />
 
                                 <div>
                                 <!-- <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1> -->
-                                <p>©2023 All Rights Reserved. EHS Dept. Privacy and Terms</p>
+                                <p>©2023 All Rights Reserved. <br> EHS Dept - PT Century Batteries Indonesia. <br> Privacy and Terms</p>
                                 </div>
                             </div>
                         </form>
