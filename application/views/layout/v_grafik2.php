@@ -223,7 +223,7 @@
                         },
                         series: [{
                                     name: 'Asam 1400',
-                                    color: 'pink',
+                                    color: 'purple',
                                     data: <?=json_encode($qty_asam_1400)?>
                                 }, {
                                     name: 'Asam 1310',
@@ -302,7 +302,7 @@
                         },
                         series: [{
                                     name: 'Asam 1400',
-                                    color: 'pink',
+                                    color: 'purple',
                                     data: <?=json_encode($data_asam_1400)?>
                                 }, {
                                     name: 'Asam 1310',
