@@ -1,21 +1,7 @@
- <!-- page content -->
- <div class="right_col" role="main">
+<!-- page content -->
+    <div class="right_col" role="main">
         <div class="">
             <div class="page-title">
-                <div class="title_left">
-                    <!-- <h3>Form Validation</h3> -->
-                </div>
-
-                <!-- <div class="title_right">
-                    <div class="col-md-5 col-sm-5 form-group pull-right top_search">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search for...">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">Go!</button>
-                            </span>
-                        </div>
-                    </div>
-                </div> -->
             </div>
             <div class="clearfix"></div>
 
@@ -27,13 +13,6 @@
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
-                                <!-- <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#">Settings 1</a>
-                                        <a class="dropdown-item" href="#">Settings 2</a>
-                                    </div>
-                                </li> -->
                                 <li>
                                     <a class="close-link" href="<?= base_url('dashboard/showShift')?>"><i class="fa fa-close"></i></a>
                                 </li>
@@ -78,53 +57,53 @@
             </div>
         </div>
     </div>
-    <!-- /page content -->
+<!-- /page content -->
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="<?= base_url('assets/gentelella-master/')?>vendors/validator/multifield.js"></script>
-    <script src="<?= base_url('assets/gentelella-master/')?>vendors/validator/validator.js"></script>
-    
-    <!-- Javascript functions	-->
-    <script>
-        // initialize a validator instance from the "FormValidator" constructor.
-        // A "<form>" element is optionally passed as an argument, but is not a must
-        var validator = new FormValidator({
-            "events": ['blur', 'input', 'change']
-        }, document.forms[0]);
-        // on form "submit" event
-        document.forms[0].onsubmit = function(e) {
-            var submit = true,
-                validatorResult = validator.checkAll(this);
-            console.log(validatorResult);
-            return !!validatorResult.valid;
-        };
-        // on form "reset" event
-        document.forms[0].onreset = function(e) {
-            validator.reset();
-        };
-        // stuff related ONLY for this demo page:
-        $('.toggleValidationTooltips').change(function() {
-            validator.settings.alerts = !this.checked;
-            if (this.checked)
-                $('form .alert').remove();
-        }).prop('checked', false);
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="<?= base_url('assets/gentelella-master/')?>vendors/validator/multifield.js"></script>
+<script src="<?= base_url('assets/gentelella-master/')?>vendors/validator/validator.js"></script>
+
+<!-- Javascript functions	-->
+<script>
+    // initialize a validator instance from the "FormValidator" constructor.
+    // A "<form>" element is optionally passed as an argument, but is not a must
+    var validator = new FormValidator({
+        "events": ['blur', 'input', 'change']
+    }, document.forms[0]);
+    // on form "submit" event
+    document.forms[0].onsubmit = function(e) {
+        var submit = true,
+            validatorResult = validator.checkAll(this);
+        console.log(validatorResult);
+        return !!validatorResult.valid;
+    };
+    // on form "reset" event
+    document.forms[0].onreset = function(e) {
+        validator.reset();
+    };
+    // stuff related ONLY for this demo page:
+    $('.toggleValidationTooltips').change(function() {
+        validator.settings.alerts = !this.checked;
+        if (this.checked)
+            $('form .alert').remove();
+    }).prop('checked', false);
 
 
-        $('#btnAlert').on('click',function(){
-            Swal.fire({
-                title: 'Merubah Data',
-                text: "Anda Yakin Akan Merubah Data Shift ?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Lanjutkan'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $('#btn').click();
-                    Swal.fire('Data Berhasil Dirubah !', '', 'success')
-                }
-            })
-        });
+    $('#btnAlert').on('click',function(){
+        Swal.fire({
+            title: 'Merubah Data',
+            text: "Anda Yakin Akan Merubah Data Shift ?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Lanjutkan'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $('#btn').click();
+                Swal.fire('Data Berhasil Dirubah !', '', 'success')
+            }
+        })
+    });
 
-    </script>
+</script>

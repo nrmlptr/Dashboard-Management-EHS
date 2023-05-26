@@ -1,762 +1,1112 @@
 <!-- page content -->
-<body onload="startTime()">
-    <div class="right_col" role="main">
-        <!-- top tiles -->
-        <div class="row" style="display: inline-block;" >
-            <div class="tile_count">
-                <div class="col-md-20 col-sm-4  tile_stats_count">
-                    <span class="count_top"><i class="fa fa-user"></i>Total Karyawan EHS</span>
-                    <div class="count"><?= $on.' Peop'?></div>
+    <body onload="startTime()">
+        <div class="right_col" role="main">
+            <!-- top tiles -->
+                <div class="row" style="display: inline-block;" >
+                    <div class="tile_count">
+                        <div class="col-md-20 col-sm-15 tile_stats_count">
+                            <span class="count_top"><i class="fa fa-clock-o"></i>Time Today</span>
+                            <div class="count" id="clock"></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-20 col-sm-8 tile_stats_count">
-                    <span class="count_top"><i class="fa fa-clock-o"></i>Time Today</span>
-                    <div class="count" id="clock"></div>
-                </div>
-                <!-- <div class="col-md-2 col-sm-4  tile_stats_count">
-                    <span class="count_top"><i class="fa fa-user"></i> Total Males</span>
-                    <div class="count green">2,500</div>
-                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
-                </div>
-                <div class="col-md-2 col-sm-4  tile_stats_count">
-                    <span class="count_top"><i class="fa fa-user"></i> Total Females</span>
-                    <div class="count">4,567</div>
-                    <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Week</span>
-                </div>
-                <div class="col-md-2 col-sm-4  tile_stats_count">
-                    <span class="count_top"><i class="fa fa-user"></i> Total Collections</span>
-                    <div class="count">2,315</div>
-                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
-                </div>
-                <div class="col-md-2 col-sm-4  tile_stats_count">
-                    <span class="count_top"><i class="fa fa-user"></i> Total Connections</span>
-                    <div class="count">7,325</div>
-                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
-                </div> -->
-            </div>
-        </div>
-        <!-- /top tiles -->
+            <!-- /top tiles -->
 
-        <div class="row">
-            <!-- kotak buat grafik pemakaian -->
-            <div class="col-md-6 col-sm-6  ">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <figure class="highcharts-figure">
-                            <div id="container-grafik"></div>
-                        </figure>
-                    </div>
-                </div>
-            </div>
-            <!-- kotak untuk grafik sisa stok -->
-            <div class="col-md-6 col-sm-6">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <figure class="highcharts-figure">
-                            <div id="container-sisa-stok"></div>
-                        </figure>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row mt-1">
-            <!-- kotak untuk tabel pemakaian -->
-            <div class="col-md-6 col-sm-6  ">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h2>Data Proses WWT</h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                            <li><a class="close-link"><i class="fa fa-close"></i></a>
-                            </li>
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content">
-                        <!-- start pop-over -->
-                        <div class="bs-example-popovers">
-                            <div class="table-responsive">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Tanggal Pemakaian</th>
-                                            <th>Bulan</th>
-                                            <th>Nama Karyawan</th>
-                                            <th>Nama Material</th>
-                                            <th>Jumlah Pemakaian</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php 
-                                            $loop = 1;
-                                            foreach($dataProses as $row){?>                                            
-                                                <tr>
-                                                    <td><?= $loop++?></td>
-                                                    <td><?= date('d-m-Y', strtotime($row->tanggal_pemakaian))?></td>
-                                                     <td><?= $row->month?></td>
-                                                    <td><?= $row->nm_user?></td>
-                                                    <td><?= $row->material?></td>
-                                                    <td><?= $row->jml_pemakaian?></td>
-                                                </tr>
-                                        <?php }?>    
-                                    </tbody>
-                                </table>
+            <hr>
+            <!-- CARD UNTUK PROSES WWT -->
+                <h3>Grafik Laporan Proses WWT</h3>
+                <hr>
+                <div class="row">
+                    <!-- kotak buat grafik tangki netralisasi -->
+                    <div class="col-md-6 col-sm-6">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <figure class="highcharts-figure">
+                                    <div id="grafiknetral"></div>
+                                </figure>
                             </div>
                         </div>
-                        <!-- end pop-over -->
-                    </div>
-                </div>
-            </div>
-           <!-- kotak untuk tabel limbah cair dan pemakaian kostik harian -->
-           <div class="col-md-6 col-sm-6  ">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h2>Daily Report Limbah cair dan Pemakaian Kostik</h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                            <li><a class="close-link"><i class="fa fa-close"></i></a>
-                            </li>
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content">
-                        <!-- start pop-over -->
-                        <div class="bs-example-popovers">
-                            <div class="table-responsive">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Item</th>
-                                            <th>Tanggal Pemakaian</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php 
-                                            $loop = 1; 
-                                        ?>                                       
-                                            <tr>
-                                                <td><?= $loop++?></td>
-                                                <td>Volume Limbah (m3)</td>
-                                            </tr>
-                                            <tr>
-                                                <td><?= $loop++?></td>
-                                                <td>Konsumsi Konstik (kg)</td>
-                                            </tr>
-                                            <tr>
-                                                
-                                                <?php foreach($dataShift as $data){?> 
-                                                <td><?= $data->nm_shift?></td>
-                                                <?php }?>
-                                                <td></td>
-                                            </tr>
-                                    </tbody>
-                                </table>
+                    </div>  
+                    <!-- kotak untuk grafik tangki outlet wwt -->
+                    <div class="col-md-6 col-sm-6  ">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <figure class="highcharts-figure">
+                                    <div>
+                                    <div id="grafikoutlet"></div>
+                                    </div>
+                                </figure>
                             </div>
                         </div>
-                        <!-- end pop-over -->
-                    </div>
+                    </div>      
                 </div>
-            </div>
-        </div> 
-        <div class="row">
-            <div class="col-md-12 col-sm-12">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <figure class="highcharts-figure">
-                            <!-- <div id="container-output-limbah"></div> -->
-                            <div>
-                                <canvas id="myChart"></canvas>
+            <!-- /CARD UNTUK PROSES WWT -->
+            <hr>
+
+            <!-- GRAFIK UNTUK PEMAKAIAN CHEMICAL -->
+                <h3>Grafik Laporan Pemakaian Chemical</h3>
+                <!-- CARD GRAFIK KOSTIK SODA WWT -->
+                <div class="row">
+                    <!-- kotak buat grafik KOSTK SODA WWT-->
+                    <div class="col-md-12 col-sm-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <figure class="highcharts-figure">
+                                    <div id="grafik-kostik-wwt"></div>
+                                </figure>
                             </div>
-                        </figure>
+
+                            <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_set_max_wwt">
+                                    Ubah Nilai Maksimum
+                                </button>
+                            <!-- /Button trigger modal -->
+
+                            <!-- Modal -->
+                                <div class="modal fade" id="modal_set_max_wwt" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel" style="color: black;">Ubah Nilai Maksimum Kostik Soda <br>
+                                                    <small style="color: red;">Nilai inputan perlu di konversi menjadi kg (dikali 1.5)</small>
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <!-- TAMBAH FORM UNTUK MENGIRIMKAN DATA KE CONTROLLER -->
+                                                <form action="<?=base_url()?>dashboard/set_max_wwt" method="post"> 
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <div class="col-lg-6">
+                                                                <input type="number" class="form-control" name="nilai_maks_wwt" placeholder="Masukkan Nilai" value="<?=(!empty($max_kostikwwt)) ? $max_kostikwwt[0]['max_kostik'] : ''?>">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                                    </div>
+                                                </form>
+                                            <!-- /TAMBAH FORM UNTUK MENGIRIMKAN DATA KE CONTROLLER -->
+                                        </div>
+                                    </div>
+                                </div>
+                            <!-- /Modal -->
+                        </div>
                     </div>
                 </div>
-            </div>
+
+                <!-- CARD KOSTIK SODA MIXBED & DEMIN 2 -->
+                <div class="row">
+                    <!-- kotak untuk grafik KOSTIK SODA REGENERASI MIXBED -->
+                    <div class="col-md-6 col-sm-6">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <figure class="highcharts-figure">
+                                    <div id="grafik-kostik-mixbed"></div>
+                                </figure>
+                            </div>
+                            <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalKosmik">
+                                    Ubah Nilai Maksimum
+                                </button>
+                            <!-- /Button trigger modal -->
+
+                            <!-- Modal -->
+                                <div class="modal fade" id="modalKosmik" tabindex="-1" aria-labelledby="modalKosmik" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="modalKosmik" style="color: black;">Ubah Nilai Maksimum Kostik Soda Regenerasi Mixbed<br>
+                                                    <small style="color: red;">Nilai inputan perlu di konversi menjadi kg (dikali 1.5)</small>
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form action="<?= base_url()?>dashboard/set_maksmixbed" method="post">
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <div class="col-lg-6">
+                                                            <input type="number" class="form-control" name="nilai_maksmixbed" placeholder="Masukkan Nilai" value="<?=(!empty($max_kostikmixbed)) ? $max_kostikmixbed[0]['max_kostikmixbed'] : ''?>">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-success" id="ubah-nimaks-kosmik">Save changes</button>
+                                                </div>
+                                            </form>    
+                                        </div>
+                                    </div>
+                                </div>
+                            <!-- /Modal -->
+                        </div>
+                    </div>
+                    <!-- kotak buat grafik KOSTIK SODA REGENERASI DEMIN 2-->
+                    <div class="col-md-6 col-sm-6  ">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <figure class="highcharts-figure">
+                                    <div id="grafik-kostik-demin2"></div>
+                                </figure>
+                            </div>
+                            <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalKosdem">
+                                    Ubah Nilai Maksimum
+                                </button>
+                            <!-- /Button trigger modal -->
+
+                            <!-- Modal -->
+                                <div class="modal fade" id="modalKosdem" tabindex="-1" aria-labelledby="modalKosdem" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="modalKosdem" style="color: black;">Ubah Nilai Maksimum Kostik Soda Regenerasi Demin 2<br>
+                                                    <small style="color: red;">Nilai inputan perlu di konversi menjadi kg (dikali 1.5)</small>
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form action="<?= base_url()?>dashboard/set_maksdemin" method="post">
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <div class="col-lg-6">
+                                                            <input type="number" class="form-control" name="nilai_maksDemin" placeholder="Masukkan Nilai" value="<?=(!empty($max_kostikdemin)) ? $max_kostikdemin[0]['max_kostikdemin'] : ''?>">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-info" id="ubah-nimaks-kosdem">Save changes</button>
+                                                </div>
+                                            </form>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            <!-- /Modal -->
+                        </div>
+                    </div>
+                </div>     
+
+                <!-- CARD UNTUK FECL3 & ASAM PEKAT -->
+                <div class="row">
+                    <!-- kotak untuk grafik Asam Pekat after -->
+                    <div class="col-md-6 col-sm-6">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <figure class="highcharts-figure">
+                                    <div id="grafik-asam-pekat"></div>
+                                </figure>
+                            </div>
+                        </div>
+                    </div> 
+                    <!-- kotak buat grafik fecl3-->
+                    <div class="col-md-6 col-sm-6  ">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <figure class="highcharts-figure">
+                                    <div id="grafik-fecl3"></div>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>      
+                </div> 
+
+                <!-- CARD UNTUK kuriflok & hcl wwt -->
+                <div class="row">
+                    <!-- kotak untuk grafik kuriflok -->
+                    <div class="col-md-6 col-sm-6">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <figure class="highcharts-figure">
+                                    <div id="grafik-kuriflok"></div>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- kotak untuk grafik hcl wwt -->
+                    <div class="col-md-6 col-sm-6">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <figure class="highcharts-figure">
+                                    <div id="grafik-hcl-wwt"></div>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD UNTUK HCL WWT & MIXBED -->
+                <div class="row">
+                    <!-- kotak buat grafik hcl mixbed-->
+                    <div class="col-md-6 col-sm-6  ">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <figure class="highcharts-figure">
+                                    <div id="grafik-hcl-mixbed"></div>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- kotak untuk grafik hcl demin -->
+                    <div class="col-md-6 col-sm-6">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <figure class="highcharts-figure">
+                                    <div id="grafik-hcl-demin"></div>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+
+            <!-- /GRAFIK UNTUK PEMAKAIAN CHEMICAL -->
+ 
         </div>
-        <div class="row mt-1">
-            <!-- kotak untuk tabel monitoring output limbah -->
-            <div class="col-md-12 col-sm-12  ">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h2>Data Monitoring Output Limbah WWT</h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                            <li><a class="close-link"><i class="fa fa-close"></i></a>
-                            </li>
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content">
-                        <!-- start pop-over -->
-                        <div class="bs-example-popovers">
-                            <div class="table-responsive">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr align="center">
-                                            <th rowspan="2">Shift</th>
-                                            <th colspan="31">Tanggal Proses</th>
-                                        </tr>
-                                        <tr>
-                                            <th>1</th>
-                                            <th>2</th>
-                                            <th>3</th>
-                                            <th>4</th>
-                                            <th>5</th>
-                                            <th>6</th>
-                                            <th>7</th>
-                                            <th>8</th>
-                                            <th>9</th>
-                                            <th>10</th>
-                                            <th>11</th>
-                                            <th>12</th>
-                                            <th>13</th>
-                                            <th>14</th>
-                                            <th>15</th>
-                                            <th>16</th>
-                                            <th>17</th>
-                                            <th>18</th>
-                                            <th>19</th>
-                                            <th>20</th>
-                                            <th>21</th>
-                                            <th>22</th>
-                                            <th>23</th>
-                                            <th>24</th>
-                                            <th>25</th>
-                                            <th>26</th>
-                                            <th>27</th>
-                                            <th>28</th>
-                                            <th>29</th>
-                                            <th>30</th>
-                                            <th>31</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php 
-                                            foreach($dataShift as $row){?>                                            
-                                                <tr align="center">
-                                                    <td><?= $row->nm_shift?></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
-                                        <?php }?>    
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <!-- end pop-over -->
-                    </div>
-                </div>
-            </div>
-        </div> 
-    </div>
-</body>
-
-<!-- /page content -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.js"></script> -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js"></script> -->
-<script>
-    //script grafik tabung untuk tampilin stok  ===============================================================================================
-    Highcharts.chart('container-sisa-stok', {
-        chart: {
-            type: 'cylinder',
-            options3d: {
-            enabled: true,
-            alpha: 15,
-            beta: 15,
-            depth: 50,
-            viewDistance: 100 }
-        },
-        title: {
-            text: 'Grafik Material'
-        },
-        xAxis: {
-            categories: [
-                <?php foreach ($stokMaterial as $row) { ?>
-                    '<?php echo $row['material']; ?>',
-                <?php } ?>
-            ],
-            title: {
-                text: 'Nama Material'
-            }
-        },
-        yAxis: {
-            min: 0,
-            title: {
-                text: 'Jumlah Stok'
-            }
-        },
-        plotOptions: {
-            series: {
-            depth: 300,
-            colorByPoint: true
-            }
-        },
-        series: [{
-            name: 'Jumlah Stok',
-            data: [
-                <?php foreach ($stokMaterial as $row) { ?>
-                    <?php echo $row['jml_stok']; ?>,
-                <?php } ?>
-            ]
-        }]
-    });
-
-    // script untuk jam manual dan tanggal waktu manual =======================================================================================
-    function startTime() {
-      var today = new Date();
-      var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-      var d = days[today.getDay()];
-      var h = today.getHours();
-      var m = today.getMinutes();
-      var s = today.getSeconds();
-      m = checkTime(m);
-      s = checkTime(s);
-      document.getElementById('clock').innerHTML =
-      d + " " + h + ":" + m + ":" + s;
-      var t = setTimeout(startTime, 1000);
-    }
-    function checkTime(i) {
-      if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-      return i;
-    }
-
-
-    // script grafik pemakaian material dikit lagi bener ======================================================================================
-    // let data = <?= json_encode($grafik) ?>;
-    // test = "";
-    // test2 = [];
-    // data.forEach(d => {
-    //     if(d.id_material == 1) {
-    //         test = test + d.jml_pemakaian +','
-    //     } else if(d.id_material == 4) {
-    //         test2.push(d.jml_pemakaian)
-    //     }
-    // })
-    // console.log(test)
-    // console.log(test2)
-    // let grouped = _.uniqBy(data,'tanggal_pemakaian');
-    // console.log(data)
-    Highcharts.chart('container-grafik', {
-        chart: {
-            type: 'line'
-        },
-        title: {
-            text: 'Grafik Pemakaian Material'
-        },
-        xAxis: {
-            categories: [
-                <?php foreach ($tanggal as $row) { ?>
-                    '<?php echo date('dd', strtotime($row['tanggal_pemakaian'])); ?>',
-                <?php } ?>
-            ],
-            title: {
-                text: 'Tanggal Pemakaian Material'
-            },
-            crosshair: true
-        },
-        yAxis: {
-            min: 0,
-            title: {
-                text: 'Jumlah Pemakaian'
-            }
-        },
-        tooltip: {
-            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y:.1f} pcs</b></td></tr>',
-            footerFormat: '</table>',
-            shared: true,
-            useHTML: true
-        },
-        plotOptions: {
-            column: {
-                pointPadding: 0.2,
-                borderWidth: 0
-            }
-        },
-        series: [{
-            name: 'Kostik Soda Tangki Besar',
-            data: [
-                <?php 
-                $exist = [];
-                foreach($grafik as $data) {
-                    if(!array_key_exists($data['tanggal_pemakaian'], $exist)) {
-                        $exist[$data['tanggal_pemakaian']] = $data['tanggal_pemakaian'];
-                    if($data['id_material'] == '1') {
-                            echo $data['jml_pemakaian'] . ','; 
-                        } else {
-                            echo '0,';
-                        }
-                    } else {
-                        if($data['id_material'] == '1') {
-                            echo $data['jml_pemakaian'] . ','; 
-                        } else {
-                            echo '0,';
-                        }
-                    }
-                } ?>
-            ]
+        <!--  =========================================== SCRIPT ==============================================-->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+            <script src="https://code.highcharts.com/highcharts.js"></script>
+            <script src="https://code.highcharts.com/modules/data.js"></script>
+            <script src="https://code.highcharts.com/modules/series-label.js"></script>
+            <script src="https://code.highcharts.com/modules/exporting.js"></script>
+            <script src="https://code.highcharts.com/modules/export-data.js"></script>
+            <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+            <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+            <script src="https://code.highcharts.com/modules/cylinder.js"></script>
             
-        },{
-            name: 'Kostik Soda Tangki Kecil',
-            data: [
-                <?php 
-                $exist = [];
-                foreach($grafik as $data) {
-                    if(!array_key_exists($data['tanggal_pemakaian'], $exist)) {
-                        $exist[$data['tanggal_pemakaian']] = $data['tanggal_pemakaian'];
-                    if($data['id_material'] == '2') {
-                            echo $data['jml_pemakaian'] . ','; 
-                        } else {
-                            echo '0,';
-                        }
-                    } else {
-                        if($data['id_material'] == '2') {
-                            echo $data['jml_pemakaian'] . ','; 
-                        } else {
-                            echo '0,';
-                        }
+            <!-- SCRIPT JAM -->
+                <script type="text/javascript">
+                    function startTime() {
+                        var today = new Date();
+                        var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                        var d = days[today.getDay()];
+                        var h = today.getHours();
+                        var m = today.getMinutes();
+                        var s = today.getSeconds();
+                        //   m = checkTime(m);
+                        //   s = checkTime(s);
+
+                            h = (h<10) ? "0" + h : h;
+                            m = (m<10) ? "0" + m : m;
+                            s = (s<10) ? "0" + s : s;
+                        document.getElementById('clock').innerHTML =
+                        d + " " + h + ":" + m + ":" + s;
+                        var t = setTimeout(startTime, 1000);
                     }
-                } ?>
-                ]
-        },{
-            name: 'Kostik flake',
-            data: [
-                <?php 
-                $exist = [];
-                foreach($grafik as $data) {
-                    if(!array_key_exists($data['tanggal_pemakaian'], $exist)) {
-                        $exist[$data['tanggal_pemakaian']] = $data['tanggal_pemakaian'];
-                    if($data['id_material'] == '3') {
-                            echo $data['jml_pemakaian'] . ','; 
-                        } else {
-                            echo '0,';
+                </script>
+            <!-- /SCRIPT JAM -->
+
+            <!-- SCRIPT GRAFIK LAPORAN PROSES WWT -->
+                <!-- ===SCRIPT GRAFIK PH NETRALISASI PROSES WWT==================================================================================================== -->
+                <script type="text/javascript">
+                    <?php
+                        $labels         = array();
+                        $values         = array();
+                        $current_month  = date('m');
+                        $days_in_month  = date('t'); // Mengambil jumlah hari dalam bulan saat ini
+
+                        for ($day = 1; $day <= $days_in_month; $day++) {
+                            $date       = date('Y-m') . '-' . str_pad($day, 2, '0', STR_PAD_LEFT); // Format tanggal YYYY-MM-DD
+                            $labels[]   = date('d', strtotime($date));
+                            $values[]   = 0; // Mengisi nilai awal dengan 0 (jika diperlukan)
                         }
-                    } else {
-                        if($data['id_material'] == '3') {
-                            echo $data['jml_pemakaian'] . ','; 
-                        } else {
-                            echo '0,';
-                        }
-                    }
-                } ?>
-            ]
-        },{
-            name: 'Kuriflok',
-            data: 
-                [
-                    <?php 
-                        $exist = [];
-                        foreach($grafik as $data) {
-                            if(!array_key_exists($data['tanggal_pemakaian'], $exist)) {
-                                $exist[$data['tanggal_pemakaian']] = $data['tanggal_pemakaian'];
-                            if($data['id_material'] == '4') {
-                                    echo $data['jml_pemakaian'] . ','; 
-                                } else {
-                                    echo '0,';
-                                }
-                            } else {
-                                if($data['id_material'] == '4') {
-                                    echo $data['jml_pemakaian'] . ','; 
-                                } else {
-                                    echo '0,';
-                                }
+
+                        foreach ($tangki_netralisasi as $tanggal => $value ) {
+                            if (date('m', strtotime($tanggal)) == $current_month) {
+                                $day                = date('d', strtotime($tanggal));
+                                $values[$day - 1]   = floatval($value); // Menggunakan indeks 0-based
                             }
                         }
+                        // var_dump($tangki_netralisasi);die;
                     ?>
-                ]
-        },{
-            name: 'Fecl3',
-            data: 
-            [
-                <?php 
-                    $exist = [];
-                    foreach($grafik as $data) {
-                        if(!array_key_exists($data['tanggal_pemakaian'], $exist)) {
-                            $exist[$data['tanggal_pemakaian']] = $data['tanggal_pemakaian'];
-                        if($data['id_material'] == '5') {
-                                echo $data['jml_pemakaian'] . ','; 
-                            } else {
-                                echo '0,';
+
+                    $(document).ready(function() {
+                        var data        = <?php echo json_encode($values); ?>;
+                        var categories  = <?php echo json_encode($labels); ?>;
+                        Highcharts.chart('grafiknetral', {
+                            chart: {
+                                type: 'line'
+                            },
+                            title: {
+                                text: 'Grafik Utama PH Tangki Netralisasi Proses WWT <br> (Bulan - <?php echo date('F'); ?>)'
+                            },
+                            xAxis: {
+                                title: {
+                                    text: 'Tanggal'
+                                },
+                                categories: categories
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Value PH'
+                                },
+                                min: 0, // Set the minimum value to 0
+                                max: 14, // Set the maximum value to 14
+                                tickInterval: 1, // Menentukan jarak antara setiap nilai
+                                plotLines: [
+                                    {
+                                        color: 'red',
+                                        dashStyle: 'solid',
+                                        value: 9, // Batas maksimum untuk Shift 1
+                                        width: 2,
+                                        label: {
+                                            text: 'Batas Maksimum PH'
+                                        }
+                                    },
+                                    {
+                                        color: 'green',
+                                        dashStyle: 'solid',
+                                        value: 5, // Batas maksimum untuk Shift 1
+                                        width: 2,
+                                        label: {
+                                            text: 'Batas Minimum PH'
+                                        }
+                                    }
+                                ]
+                            },
+                            plotOptions: {
+                                line: {
+                                    dataLabels: {
+                                        enabled: true
+                                    },
+                                    enableMouseTracking: true
+                                }
+                            },
+                            plotOptions: {
+                                series: {
+                                    point: {
+                                        events: {
+                                            click: function() {
+                                                var tanggal = this.category+'-<?=date('m-Y')?>';
+                                                // console.log(tanggal);
+                                                window.location.href = '<?php echo base_url("Dashboard/detail/") ?>' + tanggal;
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            series: [{
+                                name: 'Average PH Netralisasi',
+                                data: <?=json_encode($tangki_netralisasi)?>
+                            }],
+                            tooltip: {
                             }
-                        } else {
-                            if($data['id_material'] == '5') {
-                                echo $data['jml_pemakaian'] . ','; 
-                            } else {
-                                echo '0,';
+                        });
+                    });
+                    
+                </script>
+
+                <!-- ===SCRIPT GRAFIK PH OUTLET PROSES WWT========================================================================================================= -->
+                <script type="text/javascript">
+                    <?php
+                        $labels         = array();
+                        $values         = array();
+                        $current_month  = date('m');
+                        $days_in_month  = date('t'); // Mengambil jumlah hari dalam bulan saat ini
+
+                        for ($day = 1; $day <= $days_in_month; $day++) {
+                            $date       = date('Y-m') . '-' . str_pad($day, 2, '0', STR_PAD_LEFT); // Format tanggal YYYY-MM-DD
+                            $labels[]   = date('d', strtotime($date));
+                            $values[]   = 0; // Mengisi nilai awal dengan 0 (jika diperlukan)
+                        }
+
+                        foreach ($tangki_outlet as $tanggal => $value ) {
+                            if (date('m', strtotime($tanggal)) == $current_month) {
+                                $day                = date('d', strtotime($tanggal));
+                                $values[$day - 1]   = floatval($value); // Menggunakan indeks 0-based
                             }
                         }
-                    }
-                ?>
-            ]
-        },{
-            name: 'HCL',
-            data: [
-                <?php 
-                    $exist = [];
-                    foreach($grafik as $data) {
-                        if(!array_key_exists($data['tanggal_pemakaian'], $exist)) {
-                            $exist[$data['tanggal_pemakaian']] = $data['tanggal_pemakaian'];
-                            if($data['id_material'] == '6') {
-                                echo $data['jml_pemakaian'] . ','; 
-                            } else {
-                                echo '0,';
+
+                        // var_dump($tangki_outlet);die;
+                    ?>
+
+                    $(document).ready(function() {
+
+                        var data        = <?php echo json_encode($values); ?>;
+                        var categories  = <?php echo json_encode($labels); ?>;
+                        Highcharts.chart('grafikoutlet', {
+                            chart: {
+                                type: 'line'
+                            },
+                            title: {
+                                text: 'Grafik Utama PH Tangki Outlet Proses WWT <br> (Bulan - <?php echo date('F'); ?>)'
+                            },
+                            xAxis: {
+                                title: {
+                                    text: 'Tanggal'
+                                },
+                                categories: categories
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Value PH'
+                                },
+                                min: 0, // Set the minimum value to 0
+                                max: 14, // Set the maximum value to 14
+                                tickInterval: 1, // Menentukan jarak antara setiap nilai
+                                plotLines: [
+                                    {
+                                        color: 'red',
+                                        dashStyle: 'solid',
+                                        value: 9, // Batas maksimum untuk Shift 1
+                                        width: 2,
+                                        label: {
+                                            text: 'Batas Maksimum PH'
+                                        }
+                                    },
+                                    {
+                                        color: 'green',
+                                        dashStyle: 'solid',
+                                        value: 5, // Batas maksimum untuk Shift 1
+                                        width: 2,
+                                        label: {
+                                            text: 'Batas Minimum PH'
+                                        }
+                                    }
+                                ]
+                            },
+                            plotOptions: {
+                                line: {
+                                    dataLabels: {
+                                        enabled: true
+                                    },
+                                    enableMouseTracking: true
+                                }
+                            },
+                            plotOptions: {
+                                series: {
+                                    point: {
+                                        events: {
+                                            click: function() {
+                                                var tanggal = this.category+'-<?=date('m-Y')?>';
+                                                // console.log(tanggal);
+                                                window.location.href = '<?php echo base_url("Dashboard/detailOutlet/") ?>' + tanggal;
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            series: [{
+                                name: 'Average PH Outlet',
+                                data: <?=json_encode($tangki_outlet)?>,
+                                color: 'green'
+                            }],
+                            tooltip: {
                             }
-                        } else {
-                            if($data['id_material'] == '6') {
-                                echo $data['jml_pemakaian'] . ','; 
-                            } else {
-                                echo '0,';
+                        });
+                    });
+                    
+                </script>
+            <!-- /SCRIPT GRAFIK LAPORAN PROSES WWT -->
+
+            <!-- GRAFIK PEMAKAIAN CHEMICAL -->
+                
+                <!--====== GRAFIK KOSTIK SODA PROSES WWT=========================================================================== -->
+                <script type="text/javascript">
+                    $(document).ready(function() {
+
+                        var categories = [
+                            <?php 
+                                $start_date = date('Y-m-01'); // Mengambil tanggal awal bulan ini
+                                $end_date   = date('Y-m-t'); // Mengambil tanggal akhir bulan ini
+                                $total_days = date('j', strtotime($end_date)); // Menghitung jumlah hari dalam bulan ini
+
+                                for ($kw = 1; $kw <= $total_days; $kw++) {
+                                    echo "$kw, ";
+                                }
+                            ?>
+                        ];
+
+                        var chartWWT = Highcharts.chart('grafik-kostik-wwt', {
+                            chart: {
+                                type: 'column'
+                            },
+                            title: {
+                                text: 'Pemakaian Kostik Soda WWT (Bulan - <?php echo date('F'); ?>)'
+                            },
+                            subtitle: {
+                                text: 'Grafik dalam satuan kg',
+                                // align: 'left'
+                            },
+                            xAxis: {
+                                title: {
+                                    text: 'Tanggal'
+                                },
+                                categories: categories
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Value Kostik Soda WWT'
+                                },
+                                min: 0,
+                                max: 4000,
+                                tickInterval: 500, // Menentukan jarak antara setiap nilai
+                                plotLines: [
+                                    {
+                                        color: 'red',
+                                        dashStyle: 'solid',
+                                        value: <?=(!empty($max_kostikwwt)) ? $max_kostikwwt[0]['max_kostik'] : 0?>, // Batas maksimum 
+                                        width: 2,
+                                        label: {
+                                            text: 'Batas Maksimum Pemakaian'
+                                        }
+                                    }
+                                ]
+                            },
+                            plotOptions: {
+                                column: {
+                                    stacking: 'normal'
+                                }
+                            },
+                            series: [{
+                                        name: 'Shift 1',
+                                        data: <?=json_encode($data_koswwt_shift_1)?>
+                                    }, {
+                                        name: 'Shift 2',
+                                        data: <?=json_encode($data_koswwt_shift_2)?>
+                                    }, {
+                                        name: 'Shift 3',
+                                        data: <?=json_encode($data_koswwt_shift_3)?>
+                                    }]
+                        });
+                    });
+                </script>
+
+                <!--====== GRAFIK KOSTIK SODA REGENERASI MIXBED==================================================================== -->
+                <script type="text/javascript">
+                    $(document).ready(function() {
+
+                        var categories = [
+                            <?php 
+                                $start_date = date('Y-m-01'); // Mengambil tanggal awal bulan ini
+                                $end_date   = date('Y-m-t'); // Mengambil tanggal akhir bulan ini
+                                $total_days = date('j', strtotime($end_date)); // Menghitung jumlah hari dalam bulan ini
+
+                                for ($i = 1; $i <= $total_days; $i++) {
+                                    echo "$i, ";
+                                }
+                            ?>
+                        ];
+
+                        var chartMixbed = Highcharts.chart('grafik-kostik-mixbed', {
+                            chart: {
+                                type: 'column'
+                            },
+                            title: {
+                                text: 'Pemakaian Kostik Soda Regenerasi Mixbed <br> (Bulan - <?php echo date('F'); ?>)'
+                            },
+                            subtitle: {
+                                text: 'Grafik dalam satuan kg',
+                                // align: 'left'
+                            },
+                            xAxis: {
+                                title: {
+                                    text: 'Tanggal'
+                                },
+                                categories: categories
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Value Kostik Soda Mixbed'
+                                },
+                                min: 0,
+                                max: 1000,
+                                tickInterval: 100, // Menentukan jarak antara setiap nilai
+                                plotLines: [
+                                    {
+                                        color: 'red',
+                                        dashStyle: 'solid',
+                                        value: <?=(!empty($max_kostikmixbed)) ? $max_kostikmixbed[0]['max_kostikmixbed'] : 0?>, // Batas maksimum untuk Shift 1
+                                        width: 2,
+                                        label: {
+                                            text: 'Batas Maksimum Pemakaian'
+                                        }
+                                    }
+                                ]
+                            },
+                            plotOptions: {
+                                column: {
+                                    stacking: 'normal'
+                                }
+                            },
+                            series: [{
+                                        name: 'Shift 1',
+                                        data: <?=json_encode($data_kosmik_shift_1)?>
+                                    }, {
+                                        name: 'Shift 2',
+                                        data: <?=json_encode($data_kosmik_shift_2)?>
+                                    }, {
+                                        name: 'Shift 3',
+                                        data: <?=json_encode($data_kosmik_shift_3)?>
+                                    }]
+                        });
+                    });
+                </script>
+
+                <!--====== GRAFIK KOSTIK SODA REGENERASI DEMIN 2==================================================================== -->
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                        var categories = [
+                            <?php 
+                                $start_date = date('Y-m-01'); // Mengambil tanggal awal bulan ini
+                                $end_date   = date('Y-m-t'); // Mengambil tanggal akhir bulan ini
+                                $total_days = date('j', strtotime($end_date)); // Menghitung jumlah hari dalam bulan ini
+
+                                for ($i = 1; $i <= $total_days; $i++) {
+                                    echo "$i, ";
+                                }
+                            ?>
+                        ];
+
+                        var chartKosdem = Highcharts.chart('grafik-kostik-demin2', {
+                            chart: {
+                                type: 'column'
+                            },
+                            title: {
+                                text: 'Pemakaian Kostik Soda Regenerasi Demin 2 <br> (Bulan - <?php echo date('F'); ?>)'
+                            },
+                            subtitle: {
+                                text: 'Grafik dalam satuan kg',
+                            },
+                            xAxis: {
+                                title: {
+                                    text: 'Tanggal'
+                                },
+                                categories: categories // Menggunakan array categories yang telah dibuat sebelumnya
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Value Kostik Soda Demin 2'
+                                },
+                                min: 0,
+                                max: 1000,
+                                tickInterval: 100, // Menentukan jarak antara setiap nilai
+                                plotLines: [
+                                    {
+                                        color: 'red',
+                                        dashStyle: 'solid',
+                                        value: <?=(!empty($max_kostikdemin)) ? $max_kostikdemin[0]['max_kostikdemin'] : 0?>, // Batas maksimum 
+                                        width: 2,
+                                        label: {
+                                            text: 'Batas Maksimum Pemakaian'
+                                        }
+                                    }
+                                ]
+                            },
+                            plotOptions: {
+                                column: {
+                                    stacking: 'normal'
+                                }
+                            },
+                            series: [{
+                                        name: 'Shift 1',
+                                        data: <?=json_encode($data_kosdem_shift_1)?>
+                                    }, {
+                                        name: 'Shift 2',
+                                        data: <?=json_encode($data_kosdem_shift_2)?>
+                                    }, {
+                                        name: 'Shift 3',
+                                        data: <?=json_encode($data_kosdem_shift_3)?>
+                                    }]
+                        });
+                    });
+                </script>
+
+                <!--====== GRAFIK ASAM PEKAT ======================================================================================= -->
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                        var categories = [
+                            <?php 
+                                $start_date = date('Y-m-01'); // Mengambil tanggal awal bulan ini
+                                $end_date   = date('Y-m-t'); // Mengambil tanggal akhir bulan ini
+                                $total_days = date('j', strtotime($end_date)); // Menghitung jumlah hari dalam bulan ini
+
+                                for ($w = 1; $w <= $total_days; $w++) {
+                                    echo "$w, ";
+                                }
+
+                                // Menyimpan data ke dalam variabel JavaScript
+                            
+                            ?>
+                        ];
+
+                        var data_asam_shift_1 = <?=json_encode(array_values($data_asam_shift_1)) ?>;
+                        var data_asam_shift_2 = <?=json_encode(array_values($data_asam_shift_2)) ?>;
+                        var data_asam_shift_3 = <?=json_encode(array_values($data_asam_shift_3)) ?>;
+
+                        // Gunakan data dalam script JavaScript
+                        var series = [
+                            {
+                                name: 'Shift 1',
+                                data: data_asam_shift_1
+                            },
+                            {
+                                name: 'Shift 2',
+                                data: data_asam_shift_2
+                            },
+                            {
+                                name: 'Shift 3',
+                                data: data_asam_shift_3
                             }
-                        }
-                    }
-                ?>
-            ]
-        }
-    ]
-    });
+                        ];
 
-    // script grafik output limbah yang dihasilkan --------------------------------------------------------------------------------------------
-    // A point click event that uses the Renderer to draw a label next to the point
-    // On subsequent clicks, move the existing label instead of creating a new one.
-    // Highcharts.addEvent(Highcharts.Point, 'click', function () {
-    // if (this.series.options.className.indexOf('popup-on-click') !== -1) {
-    //     const chart = this.series.chart;
-    //     const date = Highcharts.dateFormat('%A, %b %e, %Y', this.x);
-    //     const text = `<b>${date}</b><br/>${this.y} ${this.series.name}`;
+                        Highcharts.chart('grafik-asam-pekat', {
+                            chart: {
+                                type: 'column'
+                            },
+                            title: {
+                                text: 'Pemakaian Asam Pekat (Bulan - <?php echo date('F'); ?>)'
+                            },
+                            subtitle: {
+                                text: 'Grafik dalam satuan Ton',
+                                // align: 'left'
+                            },
+                            xAxis: {
+                                title: {
+                                    text: 'Tanggal'
+                                },
+                                categories: categories
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Value Asam Pekat'
+                                },
+                                min: 0,
+                                max: 15,
+                                tickInterval: 1, // Menentukan jarak antara setiap nilai
+                            },
+                            plotOptions: {
+                                column: {
+                                    stacking: 'normal'
+                                }
+                            },
+                            series: series
+                        });
+                    });
+                </script>
 
-    //     const anchorX = this.plotX + this.series.xAxis.pos;
-    //     const anchorY = this.plotY + this.series.yAxis.pos;
-    //     const align = anchorX < chart.chartWidth - 200 ? 'left' : 'right';
-    //     const x = align === 'left' ? anchorX + 10 : anchorX - 10;
-    //     const y = anchorY - 30;
-    //     if (!chart.sticky) {
-    //     chart.sticky = chart.renderer
-    //         .label(text, x, y, 'callout',  anchorX, anchorY)
-    //         .attr({
-    //         align,
-    //         fill: 'rgba(0, 0, 0, 0.75)',
-    //         padding: 10,
-    //         zIndex: 7 // Above series, below tooltip
-    //         })
-    //         .css({
-    //         color: 'white'
-    //         })
-    //         .on('click', function () {
-    //         chart.sticky = chart.sticky.destroy();
-    //         })
-    //         .add();
-    //     } else {
-    //     chart.sticky
-    //         .attr({ align, text })
-    //         .animate({ anchorX, anchorY, x, y }, { duration: 250 });
-    //     }
-    // }
-    // });
-    // Highcharts.chart('container-output-limbah', {
+                <!--====== GRAFIK HCL WWT ========================================================================================== -->
+                <script type="text/javascript">
+                    $(document).ready(function() {
 
-    //     chart: {
-    //         scrollablePlotArea: {
-    //         minWidth: 700
-    //         }
-    //     },
+                        var categories = [
+                            <?php 
+                                $start_date = date('Y-m-01'); // Mengambil tanggal awal bulan ini
+                                $end_date   = date('Y-m-t'); // Mengambil tanggal akhir bulan ini
+                                $total_days = date('j', strtotime($end_date)); // Menghitung jumlah hari dalam bulan ini
 
-    //     data: {
-    //         csvURL: 'https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/analytics.csv',
-    //         beforeParse: function (csv) {
-    //         return csv.replace(/\n\n/g, '\n');
-    //         }
-    //     },
+                                for ($hclw = 1; $hclw <= $total_days; $hclw++) {
+                                    echo "$hclw, ";
+                                }
+                            ?>
+                        ];
 
-    //     title: {
-    //         text: 'Monitoring Output Limbah WWT',
-    //         align: 'center'
-    //     },
+                        var chartHCLW = Highcharts.chart('grafik-hcl-wwt', {
+                            chart: {
+                                type: 'column'
+                            },
+                            title: {
+                                text: 'Pemakaian HCL Proses WWT (Bulan - <?php echo date('F'); ?>)'
+                            },
+                            subtitle: {
+                                text: 'Grafik dalam satuan liter',
+                                // align: 'left'
+                            },
+                            xAxis: {
+                                title: {
+                                    text: 'Tanggal'
+                                },
+                                categories: categories
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Value HCL WWT'
+                                },
+                                min: 0,
+                                max: 500,
+                                tickInterval: 50, // Menentukan jarak antara setiap nilai
+                            },
+                            plotOptions: {
+                                column: {
+                                    stacking: 'normal'
+                                }
+                            },
+                            series: [{
+                                        name: 'Shift 1',
+                                        data: <?=json_encode($data_hclwwt_shift_1)?>
+                                    }, {
+                                        name: 'Shift 2',
+                                        data: <?=json_encode($data_hclwwt_shift_2)?>
+                                    }, {
+                                        name: 'Shift 3',
+                                        data: <?=json_encode($data_hclwwt_shift_3)?>
+                                    }]
+                        });
+                    });
+                </script>
 
-    //     subtitle: {
-    //         text: 'PT CBI',
-    //         align: 'center'
-    //     },
+                <!--====== GRAFIK HCL MIXBED ======================================================================================= -->
+                <script type="text/javascript">
+                    $(document).ready(function() {
 
-    //     xAxis: {
-    //         tickInterval: 7 * 24 * 3600 * 1000, // one week
-          
-    //         tickWidth: 0,
-    //         gridLineWidth: 1,
-    //         labels: {
-    //             align: 'left',
-    //             x: 3,
-    //             y: -3
-    //         }
-    //     },
+                        var categories = [
+                            <?php 
+                                $start_date = date('Y-m-01'); // Mengambil tanggal awal bulan ini
+                                $end_date = date('Y-m-t'); // Mengambil tanggal akhir bulan ini
+                                $total_days = date('j', strtotime($end_date)); // Menghitung jumlah hari dalam bulan ini
 
-    //     yAxis: [{ // left y axis
-    //         title: {
-    //         text: null
-    //         },
-    //         labels: {
-    //         align: 'left',
-    //         x: 3,
-    //         y: 16,
-    //         format: '{value:.,0f}'
-    //         },
-    //         showFirstLabel: false
-    //     }, { // right y axis
-    //         linkedTo: 0,
-    //         gridLineWidth: 0,
-    //         opposite: true,
-    //         title: {
-    //         text: null
-    //         },
-    //         labels: {
-    //         align: 'right',
-    //         x: -3,
-    //         y: 16,
-    //         format: '{value:.,0f}'
-    //         },
-    //         showFirstLabel: false
-    //     }],
+                                for ($hclm = 1; $hclm <= $total_days; $hclm++) {
+                                    echo "$hclm, ";
+                                }
+                            ?>
+                        ];
 
-    //     legend: {
-    //         align: 'left',
-    //         verticalAlign: 'top',
-    //         borderWidth: 0
-    //     },
+                        var chartHCLM = Highcharts.chart('grafik-hcl-mixbed', {
+                            chart: {
+                                type: 'column'
+                            },
+                            title: {
+                                text: 'Pemakaian HCL Proses Regenerasi Mixbed <br> (Bulan - <?php echo date('F'); ?>)'
+                            },
+                            subtitle: {
+                                text: 'Grafik dalam satuan liter',
+                                // align: 'left'
+                            },
+                            xAxis: {
+                                title: {
+                                    text: 'Tanggal'
+                                },
+                                categories: categories
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Value HCL Mixbed'
+                                },
+                                min: 0,
+                                max: 100,
+                                tickInterval: 10, // Menentukan jarak antara setiap nilai
+                            },
+                            plotOptions: {
+                                column: {
+                                    stacking: 'normal'
+                                }
+                            },
+                            series: [{
+                                        name: 'Shift 1',
+                                        data: <?=json_encode($data_hclmixbed_shift_1)?>
+                                    }, {
+                                        name: 'Shift 2',
+                                        data: <?=json_encode($data_hclmixbed_shift_2)?>
+                                    }, {
+                                        name: 'Shift 3',
+                                        data: <?=json_encode($data_hclmixbed_shift_3)?>
+                                    }]
+                        });
+                    });
+                </script>
 
-    //     tooltip: {
-    //         shared: true,
-    //         crosshairs: true
-    //     },
+                <!--====== GRAFIK HCL DEMIN ======================================================================================== -->
+                <script type="text/javascript">
+                    $(document).ready(function() {
 
-    //     plotOptions: {
-    //         series: {
-    //         cursor: 'pointer',
-    //         className: 'popup-on-click',
-    //         marker: {
-    //             lineWidth: 1
-    //         }
-    //         }
-    //     },
+                        var categories = [
+                            <?php 
+                                $start_date = date('Y-m-01'); // Mengambil tanggal awal bulan ini
+                                $end_date   = date('Y-m-t'); // Mengambil tanggal akhir bulan ini
+                                $total_days = date('j', strtotime($end_date)); // Menghitung jumlah hari dalam bulan ini
 
-    //     series: [{
-    //         name: 'kostik soda tangki besar',
-    //         lineWidth: 4,
-    //         marker: {
-    //         radius: 4
-    //         }
-    //     }, {
-    //         name: 'kostik soda tangki besar'
-    //     }]
-    // });
+                                for ($hcld = 1; $hcld <= $total_days; $hcld++) {
+                                    echo "$hcld, ";
+                                }
+                            ?>
+                        ];
+
+                        var chartHCLD = Highcharts.chart('grafik-hcl-demin', {
+                            chart: {
+                                type: 'column'
+                            },
+                            title: {
+                                text: 'Pemakaian HCL Proses Regenerasi Demin 2 <br> (Bulan - <?php echo date('F'); ?>)'
+                            },
+                            subtitle: {
+                                text: 'Grafik dalam satuan liter',
+                                // align: 'left'
+                            },
+                            xAxis: {
+                                title: {
+                                    text: 'Tanggal'
+                                },
+                                categories: categories
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Value HCL Demin 2'
+                                },
+                                min: 0,
+                                max: 500,
+                                tickInterval: 50, // Menentukan jarak antara setiap nilai
+                            },
+                            plotOptions: {
+                                column: {
+                                    stacking: 'normal'
+                                }
+                            },
+                            series: [{
+                                        name: 'Shift 1',
+                                        data: <?=json_encode($data_hcldemin_shift_1)?>
+                                    }, {
+                                        name: 'Shift 2',
+                                        data: <?=json_encode($data_hcldemin_shift_2)?>
+                                    }, {
+                                        name: 'Shift 3',
+                                        data: <?=json_encode($data_hcldemin_shift_3)?>
+                                    }]
+                        });
+                    });
+                </script>
+
+                <!--====== GRAFIK FECL3 ============================================================================================ -->
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                        var categories = [
+                            <?php 
+                                $start_date = date('Y-m-01'); // Mengambil tanggal awal bulan ini
+                                $end_date   = date('Y-m-t'); // Mengambil tanggal akhir bulan ini
+                                $total_days = date('j', strtotime($end_date)); // Menghitung jumlah hari dalam bulan ini
+
+                                for ($fe = 1; $fe <= $total_days; $fe++) {
+                                    echo "$fe, ";
+                                }
+                            ?>
+                        ];
+
+                        var chartFECL = Highcharts.chart('grafik-fecl3', {
+                            chart: {
+                                type: 'column'
+                            },
+                            title: {
+                                text: 'Pemakaian FeCl3 (Bulan - <?php echo date('F'); ?>)'
+                            },
+                            subtitle: {
+                                text: 'Grafik dalam satuan kg',
+                                // align: 'left'
+                            },
+                            xAxis: {
+                                title: {
+                                    text: 'Tanggal'
+                                },
+                                categories: categories
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Value FeCl3'
+                                },
+                                min: 0,
+                                max: 15,
+                                tickInterval: 1, // Menentukan jarak antara setiap nilai
+                            },
+                            plotOptions: {
+                                column: {
+                                    stacking: 'normal'
+                                }
+                            },
+                            series: [{
+                                        name: 'Shift 1',
+                                        data: <?=json_encode($data_fecl_shift_1)?>
+                                    },{
+                                        name: 'Shift 2',
+                                        data: <?=json_encode($data_fecl_shift_2)?>
+                                    },{
+                                        name: 'Shift 3',
+                                        data: <?=json_encode($data_fecl_shift_3)?>
+                                    }]
+                        });
+                    });
+                </script>
+
+                <!--====== GRAFIK KURIFLOK ========================================================================================= -->
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                        var categories = [
+                            <?php 
+                                $start_date = date('Y-m-01'); // Mengambil tanggal awal bulan ini
+                                $end_date   = date('Y-m-t'); // Mengambil tanggal akhir bulan ini
+                                $total_days = date('j', strtotime($end_date)); // Menghitung jumlah hari dalam bulan ini
+
+                                for ($kr = 1; $kr <= $total_days; $kr++) {
+                                    echo "$kr, ";
+                                }
+                            ?>
+                        ];
+
+                        var chartKR = Highcharts.chart('grafik-kuriflok', {
+                            chart: {
+                                type: 'column'
+                            },
+                            title: {
+                                text: 'Pemakaian Kuriflok (Bulan - <?php echo date('F'); ?>)'
+                            },
+                            subtitle: {
+                                text: 'Grafik dalam satuan kg',
+                                // align: 'left'
+                            },
+                            xAxis: {
+                                title: {
+                                    text: 'Tanggal'
+                                },
+                                categories: categories
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Value Kuriflok'
+                                },
+                                min: 0,
+                                max: 10,
+                                tickInterval: 1, // Menentukan jarak antara setiap nilai
+                            },
+                            plotOptions: {
+                                column: {
+                                    stacking: 'normal'
+                                }
+                            },
+                            series: [{
+                                        name: 'Shift 1',
+                                        data: <?=json_encode($data_kuri_shift_1)?>
+                                    },{
+                                        name: 'Shift 2',
+                                        data: <?=json_encode($data_kuri_shift_2)?>
+                                    },{
+                                        name: 'Shift 3',
+                                        data: <?=json_encode($data_kuri_shift_3)?>
+                                    }]
+                        });
+                    });
+                </script>
+
+            <!--/GRAFIK PEMAKAIAN CHEMICAL -->
+
+        <!--  ========================================== /SCRIPT ==============================================-->
+    </body>
+<!-- /page content -->
 
 
-    const ctx = document.getElementById('myChart');
-
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-        labels: [ 
-                    <?php foreach ($tanggal as $row) { ?>
-                        '<?php echo date('d', strtotime($row['tanggal_pemakaian'])); ?>',
-                    <?php } ?>
-                ],
-        datasets: [{
-            label: 'kostik soda tangki besar',
-            data: [
-                <?php foreach ($grafik as $data) { ?>
-                    <?php if ($data['id_material'] == '1') { echo $data['jml_pemakaian'].','; } ?>
-                <?php } ?>
-                ],
-            borderWidth: 1,
-        },{
-            label: 'kostik soda tangki kecil',
-            data: [
-                <?php foreach ($grafik as $data) { ?>
-                    <?php if ($data['id_material'] == '2') { echo $data['jml_pemakaian'].','; } ?>
-                <?php } ?>
-                ],
-            borderWidth: 1
-        },{
-            label: 'kostik flake',
-            data: [
-                <?php foreach ($grafik as $data) { ?>
-                    <?php if ($data['id_material'] == '3') { echo $data['jml_pemakaian'].','; } ?>
-                <?php } ?>
-                ],
-            borderWidth: 1
-        },{
-            label: 'Fecl3',
-            data: [
-                <?php foreach ($grafik as $data) { ?>
-                    <?php if ($data['id_material'] == '5') { echo $data['jml_pemakaian'].','; } ?>
-                <?php } ?>
-                ],
-            borderWidth: 1
-        },{
-            label: 'kuriflok',
-            data: [
-                <?php foreach ($grafik as $data) { ?>
-                    <?php if ($data['id_material'] == '4') { echo $data['jml_pemakaian'].','; } ?>
-                <?php } ?>
-                ],
-            borderWidth: 1
-        },{
-            label: 'HCL',
-            data: [
-                <?php foreach ($grafik as $data) { ?>
-                    <?php if ($data['id_material'] == '6') { echo $data['jml_pemakaian'].','; } ?>
-                <?php } ?>
-                ],
-            borderWidth: 1
-        }]
-        },
-        options: {
-        scales: {
-            y: {
-            beginAtZero: true
-            }
-        }
-        }
-    });
-    
 
 
 
-</script>
+
+
+
+
+
+
+
+
+
+
 
 
 

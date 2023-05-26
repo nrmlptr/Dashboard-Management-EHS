@@ -1,10 +1,10 @@
         <!-- footer content -->
-        <footer>
-          <div class="pull-right">
-            ©2023 All Rights Reserved Privacy and Terms by <a href=""> EHS Dept</a>
-          </div>
-          <div class="clearfix"></div>
-        </footer>
+          <footer>
+            <div class="pull-right">
+              ©2023 All Rights Reserved Privacy and Terms by <a href=""> EHS Dept - PT Century Batteries Indonesia </a>
+            </div>
+            <div class="clearfix"></div>
+          </footer>
         <!-- /footer content -->
       </div>
     </div>
