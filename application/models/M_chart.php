@@ -3,14 +3,6 @@
     
         function report(){
             $query = $this->db->query("SELECT * FROM pemakaian_material, material WHERE pemakaian_material.material_id = material.id_material");
-            // var_dump($query);die;
-            // $this->db->select('*');
-            // $this->db->from('pemakaian_material');
-            // $this->db->join('material','pemakaian_material.material_id = material.id_material');
-            // $query = $this->db->get();
-            // return $query;
-
-
             if($query->num_rows() > 0){
                 foreach($query->result() as $data){
                     $hasil[] = $data;
@@ -18,29 +10,6 @@
                 return $hasil;
             }
         }
-
-        // function getGrafikPemakaianMaterial() {
-        //     $this->db->select('pemakaian_material.*, material.id_material, material.material');
-        //     $this->db->from('pemakaian_material');
-        //     $this->db->join('material', 'pemakaian_material.material_id = material.id_material');
-        //     // $this->db->group_by('pemakaian_material.tanggal_pemakaian', 'ASC');
-        //     // $this->db->distinct();
-        //     $query = $this->db->get();
-
-            
-        //     $data = array();
-        //     foreach ($query->result() as $row) {
-        //         $data[] = array(
-        //             'id_material' => $row->id_material,
-        //             'material' => $row->material,
-        //             'jml_pemakaian' => $row->jml_pemakaian,
-        //             'tanggal_pemakaian' => $row->tanggal_pemakaian
-        //         );
-        //     }
-
-        //     // var_dump($data);die;
-        //     return $data;
-        // }
 
         function getGrafikPemakaianMaterial() {
             $this->db->distinct();

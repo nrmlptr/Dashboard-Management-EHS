@@ -3,14 +3,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Produksi extends CI_Controller {
 
-	function __construct()
-	{
+	public function __construct(){
 		parent::__construct();
 		if ($this->session->userdata('logged_in') == FALSE){
 			redirect('Login/index');
 		}
 		$this->load->model('M_auth');
 		$this->load->model('M_utama');
+		$this->load->model('M_karyawan');
+		$this->load->helper('url');
 	}
 
     public function index()
@@ -66,5 +67,9 @@ class Produksi extends CI_Controller {
 		$this->load->view('template/header');
 		$this->load->view('home/v_showDataPWWT', $data);
 		$this->load->view('template/footer');
+	}
+
+	public function useChemical(){
+		
 	}
 }

@@ -20,14 +20,13 @@
 			//bandingkan inputan dengan data tersimpan dalam DB
 			$this->load->model('M_auth');
 			$getUser = $this->M_auth->verifyAkun($username,$password);
-			// var_dump($getUser);die;
 			if(!$getUser){
-				redirect('Login/index');    //kondisi jika data username dan pw tidak ada dalm tabel users di db, maka akan diarahkan kembali pada halaman login (tidak bisa akses dashboard)
+				redirect('Login/index');//kondisi jika data username dan pw tidak ada dalm tabel users di db, maka akan diarahkan kembali pada halaman login (tidak bisa akses dashboard)
 			}else{
 				// echo "Berhasil Masuk";
 				$datauser = array(
-					'username' => $username,
-					'akses' => $getUser->akses,
+					'username' 		=> $username,
+					'akses' 	=> $getUser->akses,
 					'logged_in' => TRUE
 				);
 
