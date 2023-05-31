@@ -39,9 +39,9 @@
                                                             <a href="<?= base_url('Dashboard/editShift/'.$row->id_shift)?>" class="btn btn-app">
                                                                 <i class="fa fa-edit"></i>Edit
                                                             </a>
-                                                            <a href="<?= base_url('Dashboard/deleteShiftById/'.$row->id_shift);?>" class="btn btn-app" onclick="return confirm('Apakah Anda Yakin Akan Menghapus Data?')">
+                                                            <!-- <a href="<?= base_url('Dashboard/deleteShiftById/'.$row->id_shift);?>" class="btn btn-app" onclick="return confirm('Apakah Anda Yakin Akan Menghapus Data?')">
                                                                 <i class="fa fa-trash"></i>Delete
-                                                            </a>
+                                                            </a> -->
                                                         </td>
                                                     </tr>
                                                 <?php } ?>

@@ -64,14 +64,15 @@
 
         // metode untuk ambil data jadwal kerja ======================================================================================================
         public function getJadwal(){
-            $startOfWeek = date('Y-m-d', strtotime('this week Monday'));
-            $endOfWeek = date('Y-m-d', strtotime('this week Sunday'));
-            $this->db->select('jadwalKerja.date_in as start_date, jadwalKerja.date_out as end_date, shift.nm_shift as shift, karyawan.nm_karyawan as name');
+            // $startOfWeek = date('Y-m-d', strtotime('this week Monday'));
+            // $endOfWeek = date('Y-m-d', strtotime('this week Sunday'));
+            $this->db->select('jadwalKerja.date_in as start_date, jadwalKerja.date_out as end_date, shift.nm_shift as shift, karyawan.nm_karyawan as name, karyawan.foto_karyawan as gambar, jadwalKerja.created_at');
             $this->db->from('jadwalKerja');
             $this->db->join('karyawan','karyawan.id_karyawan = jadwalKerja.karyawan_id');
             $this->db->join('shift','shift.id_shift = jadwalKerja.shift_id');
-            $this->db->where('jadwalKerja.date_in >=', $startOfWeek);
-            $this->db->where('jadwalKerja.date_out <=', $endOfWeek);
+            // $this->db->where('jadwalKerja.date_in >=', $startOfWeek);
+            // $this->db->where('jadwalKerja.date_out <=', $endOfWeek);
+            $this->db->order_by('created_at', 'DESC');
             return $this->db->get()->result_array();
         }
 

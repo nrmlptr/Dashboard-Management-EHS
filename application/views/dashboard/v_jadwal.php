@@ -6,9 +6,113 @@
                     <!-- <h3>Users <small>Some examples to get you started</small></h3> -->
                 </div>
             </div>
-
             <div class="clearfix"></div>
+            
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="card">
+                        <div class="card-body" style="background-color: yellow;">
+                            <?php 
 
+                                $today = date('Y-m-d');
+                                $shiftToday = 'Shift 1';
+
+                                $foundData = false; // Menandakan apakah ada data yang ditemukan
+                            
+                            foreach ($data as $row) {
+                                if ($row['start_date'] == $today && $row['shift'] == $shiftToday) {
+                                    $foundData = true; // Setel menjadi true jika ada data yang ditemukan
+                            ?>
+                                    <div class="row">
+                                        <div class="">
+                                            <img src="<?= base_url('uploads/'.$row['gambar'])?>" style="width: 200px; height: 280px;" alt="Foto Karyawan">
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h6><b><?php echo $row['name']; ?></b></h6>
+                                            <p><b><?php echo $row['shift']; ?></b></p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                            <?php 
+                                }
+                            } 
+                                if (!$foundData) {
+                                    echo "<h4 align='center'>Jadwal Tidak Tersedia</h4>";
+                                }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="card">
+                        <div class="card-body" style="background-color: blanchedalmond;">
+                            <?php 
+
+                                $today = date('Y-m-d');
+                                $shiftToday = 'Shift 2';
+                                
+                                $foundData = false; // Menandakan apakah ada data yang ditemukan
+
+                            foreach ($data as $row) {
+                                if ($row['start_date'] == $today && $row['shift'] == $shiftToday) {
+                                    $foundData = true; // Setel menjadi true jika ada data yang ditemukan
+                            ?>
+                                    <div class="row">
+                                        <div class="">
+                                            <img src="<?= base_url('uploads/'.$row['gambar'])?>" style="width: 200px; height: 280px;" alt="Foto Karyawan">
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h6><b><?php echo $row['name']; ?></b></h6>
+                                            <p><b><?php echo $row['shift']; ?></b></p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                            <?php 
+                                }
+                            } 
+                                if(!$foundData){
+                                    echo "<h4 align='center'>Jadwal Tidak Tersedia</h4>";
+                                }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="card">
+                        <div class="card-body" style="background-color: aqua;">
+                            <?php 
+
+                                $today = date('Y-m-d');
+                                $shiftToday = 'Shift 3';
+
+                                $foundData = false; // Menandakan apakah ada data yang ditemukan
+
+                            foreach ($data as $row) {
+                                if ($row['start_date'] == $today && $row['shift'] == $shiftToday) {
+                                    $foundData = true; // Setel menjadi true jika ada data yang ditemukan
+                            ?>
+                                    <div class="row">
+                                        <div class="">
+                                            <img src="<?= base_url('uploads/'.$row['gambar'])?>" style="width: 200px; height: 280px;" alt="Foto Karyawan">
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h6><b><?php echo $row['name']; ?></b></h6>
+                                            <p><b><?php echo $row['shift']; ?></b></p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                            <?php 
+                                }
+                            } 
+                                if (!$foundData) {
+                                    echo "<h4 align='center'>Jadwal Tidak Tersedia</h4>";
+                                }                            
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <div class="row">
                 <div class="col-md-12 col-sm-12 ">
                     <div class="x_panel">
@@ -35,8 +139,8 @@
                                                     <th>No</th>
                                                     <th>Nama Karyawan</th>
                                                     <th>Waktu Shift</th>
-                                                    <th>Date In</th>
-                                                    <th>Date Out</th>
+                                                    <th>Hari</th>
+                                                    <th>Date In - Date Out</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -57,7 +161,6 @@
                                                         <tr align="center">
                                                             <td><?=$no;?></td>
                                                             <td><?=$row['name']?></td>
-                                                            <!-- <td><?=$row['shift']?></td> -->
                                                             <?php if($row['shift'] == 'Shift 1'){?>
                                                                 <td style="width: auto;"><span class="badge badge-success"><?=$row['shift']?></span></td>    
                                                             <?php }elseif($row['shift'] == 'Shift 2'){ ?>
@@ -65,9 +168,11 @@
                                                             <?php }else{ ?>
                                                                 <td style="width: auto;"><span class="badge badge-warning"><?=$row['shift']?></span></td>    
                                                             <?php } ?>
-                                                            <td><?=$dayList[$date_in].', '.date('d M Y',strtotime($row['start_date']))?></td>
+                                                            <td><?= $date_in .' - '. $date_out?></td>
+                                                            <td><?= date('d M Y',strtotime($row['start_date'])). ' - '. date('d M Y', strtotime($row['end_date']))?></td>
+                                                            <!-- <td><?=[$date_in].', '.date('d M Y',strtotime($row['start_date']))?></td>
                                                             <td><?=$dayList[$date_out].', '.date('d M Y',strtotime($row['end_date']))?></td>
-                                                        </tr>
+                                                        </tr> -->
                                                     <?php $no++; } ?>
                                             </tbody>
                                         </table>
@@ -78,6 +183,8 @@
                     </div>
                 </div>
             </div>
+            
+
         </div>
     </div>
 <!-- /page content -->

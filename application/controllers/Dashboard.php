@@ -1886,6 +1886,8 @@ class Dashboard extends CI_Controller {
 			$index_ap++;
 		}
 
+		// var_dump($data_ap);die;
+
 		$hasilAP = [];
 		$previous_date = null; // Tanggal sebelumnya
 		$total_difference = 0; // Total penjumlahan value_ap_difference
@@ -1943,7 +1945,7 @@ class Dashboard extends CI_Controller {
 		// var_dump($hasilAP);die;
 
 
-		// AIR MURNI UNTUK PRODUKSI ===================================================================================================================
+		// AIR MURNI UNTUK ACID DILLUTION  ========================================================================
 		$aad_shift = json_decode(file_get_contents('https://portal2.incoe.astra.co.id/production_control/api/getDataChecksheetEhs/6419'));
 		$aad_value = json_decode(file_get_contents('https://portal2.incoe.astra.co.id/production_control/api/getDataChecksheetEhs/6432'));
 		

@@ -21,19 +21,41 @@
         <!-- Custom Theme Style -->
         <link href="<?= base_url('assets/gentelella-master/')?>build/css/custom.min.css" rel="stylesheet">
     </head>
+    
+    <style>
+        .footer-text {
+            color: black;
+            text-shadow: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .login_content {
+            padding: 20px;
+            margin: 10px;
+        }
+    </style>
 
-    <body class="login">
+    <body class="login bg-image" style="background-image: url(<?= base_url('assets/gambar/cbi1.jpg')?>); background-repeat: no-repeat; background-size: 100% auto; width: 100%;">
         <div>
             <div class="login_wrapper">
-                <div class="animate form login_form">
-                    <section class="login_content">
+                <div class="animate form login_form" >
+                    <section class="login_content" style="background-color: white; padding: 20px;">
+                        <?php if ($this->session->flashdata('error')) : ?>
+							<div class="alert alert-danger" role="alert">
+								<?php echo $this->session->flashdata('error'); ?>
+							</div>
+						<?php endif; ?>
                         <form action="<?php echo base_url('Login/verifyLogin');?>" method="POST">
-                            <h1>Login Form</h1>
+                            <h1 style="color: black;">Login Form</h1>
                             <div>
-                                <input type="text" class="form-control" name="username" placeholder="Username" required="" />
+                                <?php echo (form_error('username') != '') ? 'has-error' : ''; ?>
+                                    <input type="text" class="form-control" name="username" id="username" placeholder="Username" required="" value="<?php echo set_value('username'); ?>"/>
+                                <?php echo form_error('username'); ?>
                             </div>
                             <div>
-                                <input type="password" class="form-control" name="upass" placeholder="Password" required="" />
+							    <?php echo (form_error('password') != '') ? 'has-error' : ''; ?>
+                                    <input type="password" class="form-control" name="upass" placeholder="Password" required="" id="upass" />
+                                <?php echo form_error('password'); ?>
                             </div>
                             <div>
                                 <button class="btn btn-round btn-secondary" type="submit">Log In</button>
@@ -43,15 +65,14 @@
 
                             <div class="separator">
                                 <p class="change_link">
-                                    <a href="<?= base_url('Layout/index');?>" class="btn btn-outline-secondary btn-sm">Kembali ke Dashboard </a>
+                                    <a href="<?= base_url('Layout/index');?>" class="btn btn-outline-secondary btn-sm" style="color: black;">Kembali ke Dashboard </a>
                                 </p>
 
                                 <div class="clearfix"></div>
                                 <br />
 
                                 <div>
-                                <!-- <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1> -->
-                                <p>©2023 All Rights Reserved. <br> EHS Dept - PT Century Batteries Indonesia. <br> Privacy and Terms</p>
+                                    <p class="footer-text">©2023 All Rights Reserved. <br> EHS Dept - PT Century Batteries Indonesia. <br> Privacy and Terms</p>
                                 </div>
                             </div>
                         </form>

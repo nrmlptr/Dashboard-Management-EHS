@@ -92,9 +92,9 @@
                             title: {
                                 text: 'Value Air Murni'
                             },
-                            min: 0,
-                            max: 300,
-                            tickInterval: 25, // Menentukan jarak antara setiap nilai
+                            min: -150000,
+                            max: 150000,
+                            tickInterval: 1500, // Menentukan jarak antara setiap nilai
                         },
                         series: [{
                             name: 'Nilai Air Murni',
@@ -142,9 +142,9 @@
                             title: {
                                 text: 'Value Air Murni'
                             },
-                            min: -500,
-                            max: 500,
-                            tickInterval: 25, // Menentukan jarak antara setiap nilai
+                            min: -1500,
+                            max: 1500,
+                            tickInterval: 250, // Menentukan jarak antara setiap nilai
                         },
                         series: [{
                             name: 'Nilai Air Murni',
